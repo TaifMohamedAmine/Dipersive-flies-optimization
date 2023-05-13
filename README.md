@@ -1,2 +1,2 @@
-# Dipersive-flies-optimization
-Dispersive flies optimization in trainig a neural network
+# Dipersive-flies-optimization-of-a-Neural-Network
+Dispersive flies optimization in training a neural network
