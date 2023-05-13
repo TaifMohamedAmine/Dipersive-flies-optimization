@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class DispersiveFliesOptimization :
@@ -14,7 +15,7 @@ class DispersiveFliesOptimization :
         self.delta = delta # disturbence threashold
 
         # we initialize the positions of flies and their fitness with an empty array
-        self.positions = np.empty([self.num_flies, self.dim])
+        self.positions = self.initilize_flies()
         self.fitness = np.empty([self.num_flies, 1])
 
     def fitness_function(self, x):
@@ -31,10 +32,11 @@ class DispersiveFliesOptimization :
         '''
         this function is used to initialize the positions of the flies following a bounded uniform distribution 
         '''
+        pos = np.empty([self.num_flies, self.dim])
         for fly in range(self.num_flies):
             for ft in range(self.dim):
-                self.positions[fly][ft] = np.random.uniform(-self.bounds, self.bounds)
-        return 
+                pos[fly][ft] = np.random.uniform(-self.bounds, self.bounds)
+        return pos
 
     def train(self):
         """
@@ -59,7 +61,7 @@ class DispersiveFliesOptimization :
             for fly in range(self.num_flies): 
                 
                 if fly != best_idx : 
-                    left_idx, right_idx = (fly-1)%self.num_flies, (fly+1)%self.num_flies  
+                    left_idx, right_idx = self.positions[(fly-1)%self.num_flies], self.positions[(fly+1)%self.num_flies]  
                     Xi = left_idx if self.fitness_function(left_idx) < self.fitness_function(right_idx) else right_idx    
 
                     for ft in range(self.dim):
@@ -77,3 +79,19 @@ class DispersiveFliesOptimization :
         return best_fly
 
         
+
+if __name__ == '__main__':
+
+    plt.figure()
+    inst = DispersiveFliesOptimization(100, 5, 2, 0.001, 100000)
+    plt.scatter(inst.positions[:, 0],inst.positions[:, 1], c ='b')
+    res = inst.train()
+    plt.scatter(res[0], res[1], c= 'g')
+    plt.scatter(inst.positions[:, 0],inst.positions[:, 1], c='r')
+    plt.show()
+
+
+
+
+
+
