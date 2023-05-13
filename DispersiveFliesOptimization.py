@@ -25,8 +25,8 @@ class DispersiveFliesOptimization :
         sum = 0
         for feature in x : 
             sum += feature ** 2
-        return sum  
-
+        return sum  + 1
+    
 
     def initilize_flies(self):
         '''
@@ -58,6 +58,8 @@ class DispersiveFliesOptimization :
             best_idx = np.argmin(self.fitness)
             best_fly = self.positions[best_idx]
 
+            print('the current best fly pos :' , best_fly, 'with value :', self.fitness_function(best_fly))
+
             for fly in range(self.num_flies): 
                 
                 if fly != best_idx : 
@@ -83,10 +85,10 @@ class DispersiveFliesOptimization :
 if __name__ == '__main__':
 
     plt.figure()
-    inst = DispersiveFliesOptimization(100, 5, 2, 0.001, 100000)
+    inst = DispersiveFliesOptimization(1000, 5, 2, 0.001, 1000)
     plt.scatter(inst.positions[:, 0],inst.positions[:, 1], c ='b')
     res = inst.train()
-    plt.scatter(res[0], res[1], c= 'g')
+    print('the best fly :', res)
     plt.scatter(inst.positions[:, 0],inst.positions[:, 1], c='r')
     plt.show()
 
